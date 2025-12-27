@@ -1,0 +1,73 @@
+﻿@inject Microsoft.AspNetCore.Components.NavigationManager NavigationManager // This line is used to generate URLs dynamically //
+@inject StateService stateService
+@using System.Text.Json;
+@inject IHttpContextAccessor HttpContextAccessor
+@using Microsoft.AspNetCore.Components.Web
+@inject IJSRuntime JSRuntime
+@namespace staterkit.Components
+
+<!DOCTYPE html>
+<html lang="en" data-toggled="close" dir="@appState.Direction" data-nav-layout="@appState.NavigationStyles" data-theme-mode="@appState.ColorTheme" data-header-styles="@appState.HeaderColor" data-menu-styles="@appState.MenuColor" data-nav-style="@appState.MenuStyles" data-page-style="@appState.PageStyles" data-width="@appState.WidthStyles" data-menu-position="@appState.MenuPosition" data-header-position="@appState.HeaderPosition" data-bg-img="@appState.BackgroundImage">
+
+    <head>
+
+       <!-- Meta Data -->
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title> YNEX - MudBlazor Web App Blazor Admin &amp; Dashboard Template </title>
+        <meta name="Description" content="MudBlazor Web App Blazor Responsive Admin Dashboard Template">
+        <meta name="Author" content="Spruko Technologies Private Limited">
+        <meta name="keywords" content="admin dashboard template,,admin dashboard ui,admin panel template,admin panel ui,admin template,blazor admin template,blazor dashboard,blazor dashboard template,blazor ui framework,dashboard template,dashboard ui templates,mudblazor admin dashboard,mudblazor admin template,mudblazor dashboard,web admin dashboard">
+
+        <!-- Favicon -->
+        <link rel="icon" href="@($"{NavigationManager.BaseUri}assets/images/brand-logos/favicon.ico")" type="image/x-icon">
+        
+        <!-- MudBlazor Css -->
+        <link href="@Assets["_content/MudBlazor/MudBlazor.min.css"]" rel="stylesheet" />
+
+        <link href="staterkit.styles.css" rel="stylesheet" />
+
+        <!-- Style Css -->
+        <link href="@($"{NavigationManager.BaseUri}assets/css/styles.css")" rel="stylesheet" >
+        
+        <!-- Icons Css -->
+        <link href="@($"{NavigationManager.BaseUri}assets/css/icons.css")" rel="stylesheet" >
+
+        <!-- ColorPicker CSS -->
+        <link href="_content/BlazorColorPicker/colorpicker.css" rel="stylesheet" />
+        
+        <HeadOutlet @rendermode="InteractiveServer" />
+
+    </head>
+
+    <body>
+
+        <Routes @rendermode="InteractiveServer" />
+
+        <!-- Popper JS -->
+        <script src="@Assets["assets/libs/@popperjs/core/umd/popper.min.js"]"></script>
+
+        <!--MudBlazor JS -->
+        <script src="_framework/blazor.web.js"></script>
+        <script src="@Assets["_content/MudBlazor/MudBlazor.min.js"]"></script>
+        <script src="js/javaScriptInterop.js"></script>
+        <script src="js/Popoveranimation.js"></script>
+        <script src="js/resizeInterop.js"></script>
+
+        <script>
+            function CaptureElementAndCallBlazorFunction(event, menuData) {
+                var element = event.currentTarget;
+                var menuId = element.dataset.menuId;
+                window.DotNet.invokeMethodAsync("staterkit.SubNavMenu", "TriggerFunction", element, menuData, null);
+            }
+
+        </script>
+
+    </body>
+
+</html>
+
+@code {
+    private AppState appState => stateService.GetAppState();
+}

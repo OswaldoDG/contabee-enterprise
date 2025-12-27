@@ -1,0 +1,175 @@
+@page "/"
+@using MudBlazor
+@using System.Globalization
+@using System.Collections.Generic
+@using System.Net.Http.Json
+@using staterkit.Models
+@inject NavigationManager Nav
+@inject IDialogService DialogService
+@layout Components.Layout.CustomLayout
+@inject Microsoft.AspNetCore.Components.NavigationManager NavigationManager
+@inject HttpClient Http
+@inject AuthService authService
+
+@inject ILogger<Login> Logger
+
+<link Href="_content/WMBlazorSlickCarousel/WMBlazorSlickCarousel.bundle.scp.css" rel="stylesheet">
+
+<div Class="bg-white">
+    <!-- Start::MudGrid -->
+    <MudGrid Class="authentication mx-0" Spacing="0">
+        <MudItem xs="12" sm="12" md="12" lg="7">
+            <!-- Start::MudGrid -->
+            <MudGrid Class="justify-center align-center h-100">
+                <MudItem xs="12" sm="8" md="7" lg="7" xl="6">
+                    <div Class="pa-10">
+
+                        <MudText Typo="Typo.h5" Class="fw-semibold mb-2">Sign In</MudText>
+                        <MudText Class="mb-4 text-muted op-7 fw-normal">Welcome back Jhon !</MudText>
+                        <div Class="btn-list">
+                            <MudButton Variant="Variant.Filled" Class="btn-light" Size="Size.Large"><svg
+                                    Class="google-svg" xmlns="http://www.w3.org/2000/svg" width="2443" height="2500"
+                                    preserveAspectRatio="xMidYMid" viewBox="0 0 256 262">
+                                    <path fill="#4285F4"
+                                        d="M255.878 133.451c0-10.734-.871-18.567-2.756-26.69H130.55v48.448h71.947c-1.45 12.04-9.283 30.172-26.69 42.356l-.244 1.622 38.755 30.023 2.685.268c24.659-22.774 38.875-56.282 38.875-96.027" />
+                                    <path fill="#34A853"
+                                        d="M130.55 261.1c35.248 0 64.839-11.605 86.453-31.622l-41.196-31.913c-11.024 7.688-25.82 13.055-45.257 13.055-34.523 0-63.824-22.773-74.269-54.25l-1.531.13-40.298 31.187-.527 1.465C35.393 231.798 79.49 261.1 130.55 261.1" />
+                                    <path fill="#FBBC05"
+                                        d="M56.281 156.37c-2.756-8.123-4.351-16.827-4.351-25.82 0-8.994 1.595-17.697 4.206-25.82l-.073-1.73L15.26 71.312l-1.335.635C5.077 89.644 0 109.517 0 130.55s5.077 40.905 13.925 58.602l42.356-32.782" />
+                                    <path fill="#EB4335"
+                                        d="M130.55 50.479c24.514 0 41.05 10.589 50.479 19.438l36.844-35.974C195.245 12.91 165.798 0 130.55 0 79.49 0 35.393 29.301 13.925 71.947l42.211 32.783c10.59-31.477 39.891-54.251 74.414-54.251" />
+                                </svg>Sign In with google</MudButton>
+                            <MudIconButton Icon="ri-facebook-fill fs-15 align-center" Variant="Variant.Filled"
+                                Class="btn-icon btn-light mb-0" />
+                            <MudIconButton Icon="ri-twitter-x-line fs-15 align-center" Variant="Variant.Filled"
+                                Class="btn-icon btn-light mb-0" />
+                        </div>
+                        <div Class="text-center my-10 authentication-barrier">
+                            <span>OR</span>
+                        </div>
+                        <!-- Start::MudGrid -->
+                        <MudGrid Class="gy-4">
+                            <MudItem xs="12" sm="12" md="12" lg="12" Class="mt-0">
+                                <label for="signin-username" Class="form-label text-default">User Name</label>
+                                <MudInput T="string" InputType="InputType.Text" @bind-Value="model.username"
+                                    Underline="false" Class="form-control form-control-lg" Placeholder="user name" />
+                            </MudItem>
+                            <MudItem xs="12" sm="12" md="12" lg="12" Class="mb-3">
+                                <label for="signin-password" Class="form-label text-default d-block">Password<MudLink
+                                        Href="reset-password-cover" Class="float-end mud-error-text">Forget password ?
+                                    </MudLink></label>
+                                <div Class="input-group">
+                                    <MudTextField @bind-Value="model.password" Label="" Underline="false"
+                                        Class="form-control form-control-lg" Variant="Variant.Text"
+                                        InputType="@PasswordInput" Placeholder="password" Adornment="Adornment.End"
+                                        AdornmentIcon="@PasswordInputIcon" OnAdornmentClick="TogglePasswordVisibility"
+                                        AdornmentAriaLabel="Show Password" />
+                                </div>
+                                <div Class="mt-2">
+                                    <div Class="form-check">
+                                        <MudCheckBox @bind-Value="Basic_CheckBox1" Size="Size.Small"
+                                            Class="text-muted fw-normal" Color="Color.Primary"
+                                            Label="Remember password ?"></MudCheckBox>
+                                    </div>
+                                </div>
+                            </MudItem>
+                            <MudItem xs="12" sm="12" md="12" lg="12" Class="d-grid mt-2">
+                                <MudButton Variant="Variant.Filled" Color="Color.Primary" class="mud-fixed-white-text"
+                                    Size="Size.Large" OnClick="HandleLogin">Sign In</MudButton>
+                            </MudItem>
+                        </MudGrid>
+                        <!-- End::MudGrid -->
+                        <div Class="text-center">
+                            <MudText Class="fs-12 text-muted mt-4">Dont have an account? <MudLink Href="signup-cover"
+                                    Class="mud-primary-text">Sign Up</MudLink>
+                            </MudText>
+                        </div>
+                    </div>
+                </MudItem>
+            </MudGrid>
+            <!-- End::MudGrid -->
+        </MudItem>
+
+    </MudGrid>
+    <!-- End::MudGrid -->
+</div>
+
+@code {
+
+    ////// Password Code
+    public string? Password1 { get; set; }
+
+    bool isShowPassword;
+    InputType PasswordInput = InputType.Password;
+    string PasswordInputIcon = "ri-eye-off-line fs-14 mb-1";
+
+    private LoginRequest model = new();
+
+    private async Task HandleLogin()
+    {
+
+
+        var dict = new Dictionary<string, string>
+{
+{ "grant_type", "password" },
+{ "client_id", "contabee-password" },
+{ "username", model.username }, // Usamos tu variable del input
+{ "password", model.password }, // Usamos tu variable del input
+{ "scope", "offline_access" },
+{ "dispositivoid", "00000000-0000-0000-0000-000000000012" }
+};
+
+        var content = new FormUrlEncodedContent(dict);
+
+        try
+        {
+            var response = await Http.PostAsync("/api/identity/connect/token", content);
+            @*if (response.IsSuccessStatusCode)
+            {
+                var result = await response.Content.ReadAsStringAsync();
+                Console.WriteLine("Exito" + result);
+                Nav.NavigateTo("/index");
+            } *@
+            var result = await response.Content.ReadFromJsonAsync<LoginResponse>();
+            Console.WriteLine(result);
+            if (result != null)
+            {
+                await authService.saveToken(result);
+                Nav.NavigateTo("/index");
+            }
+            else
+            {
+                var error = await response.Content.ReadAsStringAsync();
+                Console.WriteLine("Error Login" + error);
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("Excepcion" + ex.Message);
+        }
+
+
+    }
+
+    void TogglePasswordVisibility()
+    {
+        if (isShowPassword)
+        {
+            isShowPassword = false;
+            PasswordInputIcon = "ri-eye-off-line fs-14 mb-1";
+            PasswordInput = InputType.Password;
+        }
+        else
+        {
+            isShowPassword = true;
+            PasswordInputIcon = "ri-eye-line fs-14 mb-1";
+            PasswordInput = InputType.Text;
+        }
+    }
+    ////// Password Code
+
+
+
+    ////// Default selected CheckBox
+    public bool Basic_CheckBox1 { get; set; } = false;
+}

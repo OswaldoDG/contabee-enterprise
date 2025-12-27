@@ -1,0 +1,69 @@
+﻿@page "/counter"
+@inject Microsoft.AspNetCore.Components.NavigationManager NavigationManager // This line is used to generate URLs dynamically //
+
+
+                <!-- Page Header Open -->
+                <div Class="d-md-flex d-block align-center justify-space-between my-6">
+                    <MudText Class="fw-semibold fs-18">Counters</MudText>
+                    <MudBreadcrumbs Items="_items" Class="page-header-breadcrumb">
+                        <SeparatorTemplate>
+                        </SeparatorTemplate>
+                    </MudBreadcrumbs>
+                </div>
+                <!-- Page Header Close -->
+
+                <!-- Start::MudGrid -->
+                <MudGrid class="mb-6">
+                    <MudItem xs="12" md="6" lg="6">
+                        <MudCard Class="custom-card">
+                            <MudCardHeader Class="justify-space-between">
+                                <MudText Class="card-title">IncrementCount</MudText>
+                            </MudCardHeader>
+                            <MudCardContent>
+                                <MudText Typo="Typo.h3" GutterBottom="true">Counter</MudText>
+                                <MudText Typo="Typo.body1" Class="mb-4">Current count: @currentCount</MudText>
+                                <MudButton Color="Color.Primary" Variant="Variant.Filled" @onclick="IncrementCount">Click me</MudButton>
+                            </MudCardContent>
+                        </MudCard>
+                    </MudItem>
+                    <MudItem xs="12" md="6" lg="6">
+                        <MudCard Class="custom-card">
+                            <MudCardHeader Class="justify-space-between">
+                                <MudText Class="card-title">DecrementCount</MudText>
+                            </MudCardHeader>
+                            <MudCardContent>
+                                <MudText Typo="Typo.h3" GutterBottom="true">Counter</MudText>
+                                <MudText Typo="Typo.body1" Class="mb-4">Current count: @currentCount1</MudText>
+                                <MudButton Color="Color.Primary" Variant="Variant.Filled" @onclick="DecrementCount">Click me</MudButton>
+                            </MudCardContent>
+                        </MudCard>
+                    </MudItem>
+                </MudGrid>
+                <!-- End::MudGrid -->
+
+
+@code {
+
+    // Breadcrumb Code //
+    private List<BreadcrumbItem> _items = new List<BreadcrumbItem>
+    {
+        new BreadcrumbItem("Pages", href: "javascript:void(0);"),
+        new BreadcrumbItem("Counters", href: "javascript:void(0);"),
+    };
+    // Breadcrumb Code //
+
+    // Counter Code //
+    private int currentCount = 0;
+    private int currentCount1 = 10;
+
+    private void IncrementCount()
+    {
+        currentCount++;
+    }
+    private void DecrementCount()
+    {
+        currentCount1--;
+    }
+    // Counter Code //
+
+}
