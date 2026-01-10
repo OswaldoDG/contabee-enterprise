@@ -1,5 +1,5 @@
 using Blazored.SessionStorage;
-using staterkit.Models;
+using Contabee.Enterprise.Models;
 
 public class AuthService
 {

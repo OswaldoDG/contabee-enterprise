@@ -3,8 +3,8 @@
     <TargetFramework>net9.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <RootNamespace>staterkit</RootNamespace>
-    <AssemblyName>staterkit</AssemblyName>
+    <RootNamespace>Contabee.Enterprise</RootNamespace>
+    <AssemblyName>Contabee.Enterprise</AssemblyName>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Blazored.SessionStorage" Version="2.4.0" />
