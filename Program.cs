@@ -1,5 +1,5 @@
 using MudBlazor.Services;
-using staterkit.Components;
+using Contabee.Enterprise.Components;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
@@ -10,7 +10,7 @@ using ApexCharts;
 using BlazorColorPicker;
 using Blazored.SessionStorage;
 
-namespace staterkit
+namespace Contabee.Enterprise
 {
     public class Program
     {

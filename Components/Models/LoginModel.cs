@@ -1,4 +1,4 @@
-namespace staterkit.Models
+namespace Contabee.Enterprise.Models
 {
     public class LoginRequest
     {
